@@ -79,7 +79,7 @@ export default function App() {
 
   const t = dict[lang];
 
-  // --- STRING STATES (This completely prevents the '0' bug) ---
+  // --- STRING STATES (Zero-bug prevention) ---
   const [grossUSD, setGrossUSD] = useState("4500");
   const [rate, setRate] = useState("950");
   const [siiRate, setSiiRate] = useState("15.25");
@@ -94,7 +94,6 @@ export default function App() {
   const [presumedExpensePct, setPresumedExpensePct] = useState("30"); 
   const [utaCap, setUtaCap] = useState("15"); 
 
-  // Safely converts strings to numbers only for the math
   const num = (v) => Number(v) || 0;
 
   // --- MATH & LOGIC ---
@@ -172,14 +171,14 @@ export default function App() {
         .card-alt { background: #f1f5f9; border: 1px solid #e2e8f0; }
         .card-title { font-size: 13px; font-weight: 800; text-transform: uppercase; color: #94a3b8; margin: 0 0 16px 0; letter-spacing: 1px; }
         
-        /* MOBILE FIRST GRID CSS */
-        .input-grid-2 { display: grid; grid-template-columns: 1fr 1fr; gap: 12px; }
-        .input-grid-3 { display: grid; grid-template-columns: 1fr; gap: 12px; } /* Stacks perfectly on phone */
-        .input-grid-5 { display: grid; grid-template-columns: 1fr 1fr; gap: 12px; }
+        /* --- THE RESPONSIVE FIX: EVERYTHING STACKS ON MOBILE --- */
+        .input-grid-2 { display: grid; grid-template-columns: 1fr; gap: 16px; }
+        .input-grid-3 { display: grid; grid-template-columns: 1fr; gap: 16px; } 
+        .input-grid-5 { display: grid; grid-template-columns: 1fr; gap: 16px; }
         .sii-span { grid-column: 1 / -1; }
 
         .label-container { display: flex; align-items: center; gap: 6px; margin-bottom: 4px; }
-        .input-label { font-size: 11px; font-weight: 700; text-transform: uppercase; }
+        .input-label { font-size: 11px; font-weight: 700; text-transform: uppercase; line-height: 1.2; }
         .input-field { width: 100%; padding: 10px; border-radius: 8px; border: 1px solid #cbd5e1; font-size: 16px; transition: border-color 0.2s; }
         .input-field-trans { background: transparent; border: 1px solid #cbd5e1; padding: 8px; }
         .input-field:focus { outline: none; border-color: #2563eb; }
@@ -188,7 +187,7 @@ export default function App() {
         .font-bold { font-weight: 700; }
         .text-red { color: #ef4444; }
 
-        .tooltip { position: relative; display: flex; align-items: center; cursor: help; color: #64748b; }
+        .tooltip { position: relative; display: flex; align-items: center; cursor: help; color: #64748b; flex-shrink: 0; }
         .tooltip-text { 
           visibility: hidden; width: 220px; background-color: #1e293b; color: #f8fafc; 
           text-align: left; border-radius: 8px; padding: 10px 12px; position: absolute; 
@@ -205,13 +204,16 @@ export default function App() {
           visibility: visible; opacity: 1; transform: translateY(0); 
         }
         
-        /* DESKTOP BREAKPOINT */
+        /* --- DESKTOP BREAKPOINT: RESTORE COLUMNS ON BIG SCREENS --- */
         @media (min-width: 768px) {
           .container { padding: 40px 20px; }
           .header-title { font-size: 32px; }
           .main-grid { grid-template-columns: 1fr 1fr; gap: 30px; }
           .card { padding: 24px; }
-          .input-grid-3 { grid-template-columns: 1fr 1fr 1fr; gap: 15px; } /* Expand on PC */
+          
+          /* Put grids back side-by-side for Desktop */
+          .input-grid-2 { grid-template-columns: 1fr 1fr; gap: 15px; } 
+          .input-grid-3 { grid-template-columns: 1fr 1fr 1fr; gap: 15px; } 
           .input-grid-5 { grid-template-columns: repeat(3, 1fr); gap: 15px; }
           .sii-span { grid-column: span 3; }
         }
