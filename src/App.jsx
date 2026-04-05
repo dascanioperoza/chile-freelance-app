@@ -7,7 +7,7 @@ export default function App() {
   const dict = {
     en: {
       title: "Chile Freelance Pro",
-      subtitle: "Ley 21.133 • Bilingual Edition",
+      subtitle: "Ley 21.133 • Bulletproof Edition",
       switchBtn: "🇪🇸 Cambiar a Español",
       sections: ["1. Core Income", "2. Mandatory Rates (%)", "3. Fiscal Constants", "4. Advanced Tax Rules"],
       labels: {
@@ -42,7 +42,7 @@ export default function App() {
     },
     es: {
       title: "Pro Freelancer Chile",
-      subtitle: "Ley 21.133 • Edición Bilingüe",
+      subtitle: "Ley 21.133 • Edición Blindada",
       switchBtn: "🇺🇸 Switch to English",
       sections: ["1. Ingresos Base", "2. Tasas Obligatorias (%)", "3. Constantes Fiscales", "4. Reglas Tributarias"],
       labels: {
@@ -79,30 +79,22 @@ export default function App() {
 
   const t = dict[lang];
 
-  // --- CORE INPUTS ---
-  const [grossUSD, setGrossUSD] = useState(4500);
-  const [rate, setRate] = useState(950);
-  
-  // --- MANDATORY RATES ---
-  const [siiRate, setSiiRate] = useState(15.25);
-  const [afpRate, setAfpRate] = useState(11.2);
-  const [isapreRate, setIsapreRate] = useState(7.0);
-  const [sisRate, setSisRate] = useState(1.54);
-  const [atepRate, setAtepRate] = useState(0.93);
-  
-  // --- FISCAL CONSTANTS ---
-  const [ufValue, setUfValue] = useState(39841); 
-  const [utaValue, setUtaValue] = useState(838668);
-  const [topeUF, setTopeUF] = useState(90.1);
+  // --- STRING STATES (This completely prevents the '0' bug) ---
+  const [grossUSD, setGrossUSD] = useState("4500");
+  const [rate, setRate] = useState("950");
+  const [siiRate, setSiiRate] = useState("15.25");
+  const [afpRate, setAfpRate] = useState("11.2");
+  const [isapreRate, setIsapreRate] = useState("7.0");
+  const [sisRate, setSisRate] = useState("1.54");
+  const [atepRate, setAtepRate] = useState("0.93");
+  const [ufValue, setUfValue] = useState("39841"); 
+  const [utaValue, setUtaValue] = useState("838668");
+  const [topeUF, setTopeUF] = useState("90.1");
+  const [previRedBasePct, setPreviRedBasePct] = useState("80"); 
+  const [presumedExpensePct, setPresumedExpensePct] = useState("30"); 
+  const [utaCap, setUtaCap] = useState("15"); 
 
-  // --- ADVANCED TAX RULES ---
-  const [previRedBasePct, setPreviRedBasePct] = useState(80); 
-  const [presumedExpensePct, setPresumedExpensePct] = useState(30); 
-  const [utaCap, setUtaCap] = useState(15); 
-
-  const handle = (setter) => (e) => {
-    setter(e.target.value === "" ? "" : Number(e.target.value));
-  };
+  // Safely converts strings to numbers only for the math
   const num = (v) => Number(v) || 0;
 
   // --- MATH & LOGIC ---
@@ -180,9 +172,9 @@ export default function App() {
         .card-alt { background: #f1f5f9; border: 1px solid #e2e8f0; }
         .card-title { font-size: 13px; font-weight: 800; text-transform: uppercase; color: #94a3b8; margin: 0 0 16px 0; letter-spacing: 1px; }
         
-        /* THE MOBILE CSS FIX */
+        /* MOBILE FIRST GRID CSS */
         .input-grid-2 { display: grid; grid-template-columns: 1fr 1fr; gap: 12px; }
-        .input-grid-3 { display: grid; grid-template-columns: 1fr; gap: 12px; } /* Stack 3-col on phones */
+        .input-grid-3 { display: grid; grid-template-columns: 1fr; gap: 12px; } /* Stacks perfectly on phone */
         .input-grid-5 { display: grid; grid-template-columns: 1fr 1fr; gap: 12px; }
         .sii-span { grid-column: 1 / -1; }
 
@@ -219,7 +211,7 @@ export default function App() {
           .header-title { font-size: 32px; }
           .main-grid { grid-template-columns: 1fr 1fr; gap: 30px; }
           .card { padding: 24px; }
-          .input-grid-3 { grid-template-columns: 1fr 1fr 1fr; gap: 15px; } /* Return to 3 cols on PC */
+          .input-grid-3 { grid-template-columns: 1fr 1fr 1fr; gap: 15px; } /* Expand on PC */
           .input-grid-5 { grid-template-columns: repeat(3, 1fr); gap: 15px; }
           .sii-span { grid-column: span 3; }
         }
@@ -248,11 +240,11 @@ export default function App() {
               <div className="input-grid-2">
                 <div>
                   <LabelWithHelper title={t.labels.gross} helperText={t.helpers.gross} />
-                  <input type="number" value={grossUSD} onChange={handle(setGrossUSD)} className="input-field" />
+                  <input type="number" value={grossUSD} onChange={(e) => setGrossUSD(e.target.value)} className="input-field" />
                 </div>
                 <div>
                   <LabelWithHelper title={t.labels.rate} helperText={t.helpers.rate} />
-                  <input type="number" value={rate} onChange={handle(setRate)} className="input-field" />
+                  <input type="number" value={rate} onChange={(e) => setRate(e.target.value)} className="input-field" />
                 </div>
               </div>
             </div>
@@ -262,23 +254,23 @@ export default function App() {
               <div className="input-grid-5">
                 <div className="sii-span">
                   <LabelWithHelper color="#2563eb" title={t.labels.sii} helperText={t.helpers.sii} />
-                  <input type="number" step="0.01" value={siiRate} onChange={handle(setSiiRate)} className="input-field" style={{ border: '2px solid #bfdbfe' }} />
+                  <input type="number" step="0.01" value={siiRate} onChange={(e) => setSiiRate(e.target.value)} className="input-field" style={{ border: '2px solid #bfdbfe' }} />
                 </div>
                 <div>
                   <LabelWithHelper title={t.labels.afp} helperText={t.helpers.afp} />
-                  <input type="number" step="0.1" value={afpRate} onChange={handle(setAfpRate)} className="input-field" />
+                  <input type="number" step="0.1" value={afpRate} onChange={(e) => setAfpRate(e.target.value)} className="input-field" />
                 </div>
                 <div>
                   <LabelWithHelper title={t.labels.health} helperText={t.helpers.health} />
-                  <input type="number" step="0.1" value={isapreRate} onChange={handle(setIsapreRate)} className="input-field" />
+                  <input type="number" step="0.1" value={isapreRate} onChange={(e) => setIsapreRate(e.target.value)} className="input-field" />
                 </div>
                 <div>
                   <LabelWithHelper title={t.labels.sis} helperText={t.helpers.sis} />
-                  <input type="number" step="0.01" value={sisRate} onChange={handle(setSisRate)} className="input-field" />
+                  <input type="number" step="0.01" value={sisRate} onChange={(e) => setSisRate(e.target.value)} className="input-field" />
                 </div>
                 <div>
                   <LabelWithHelper title={t.labels.atep} helperText={t.helpers.atep} />
-                  <input type="number" step="0.01" value={atepRate} onChange={handle(setAtepRate)} className="input-field" />
+                  <input type="number" step="0.01" value={atepRate} onChange={(e) => setAtepRate(e.target.value)} className="input-field" />
                 </div>
               </div>
             </div>
@@ -288,15 +280,15 @@ export default function App() {
               <div className="input-grid-3">
                 <div>
                   <LabelWithHelper title={t.labels.uf} helperText={t.helpers.uf} />
-                  <input type="number" value={ufValue} onChange={handle(setUfValue)} className="input-field input-field-trans" />
+                  <input type="number" value={ufValue} onChange={(e) => setUfValue(e.target.value)} className="input-field input-field-trans" />
                 </div>
                 <div>
                   <LabelWithHelper title={t.labels.uta} helperText={t.helpers.uta} />
-                  <input type="number" value={utaValue} onChange={handle(setUtaValue)} className="input-field input-field-trans" />
+                  <input type="number" value={utaValue} onChange={(e) => setUtaValue(e.target.value)} className="input-field input-field-trans" />
                 </div>
                 <div>
                   <LabelWithHelper title={t.labels.tope} helperText={t.helpers.tope} />
-                  <input type="number" step="0.1" value={topeUF} onChange={handle(setTopeUF)} className="input-field input-field-trans" />
+                  <input type="number" step="0.1" value={topeUF} onChange={(e) => setTopeUF(e.target.value)} className="input-field input-field-trans" />
                 </div>
               </div>
             </div>
@@ -306,15 +298,15 @@ export default function App() {
               <div className="input-grid-3">
                 <div>
                   <LabelWithHelper color="#9333ea" title={t.labels.base} helperText={t.helpers.base} />
-                  <input type="number" value={previRedBasePct} onChange={handle(setPreviRedBasePct)} className="input-field input-field-trans" style={{ borderColor: '#e9d5ff' }} />
+                  <input type="number" value={previRedBasePct} onChange={(e) => setPreviRedBasePct(e.target.value)} className="input-field input-field-trans" style={{ borderColor: '#e9d5ff' }} />
                 </div>
                 <div>
                   <LabelWithHelper color="#9333ea" title={t.labels.exp} helperText={t.helpers.exp} />
-                  <input type="number" value={presumedExpensePct} onChange={handle(setPresumedExpensePct)} className="input-field input-field-trans" style={{ borderColor: '#e9d5ff' }} />
+                  <input type="number" value={presumedExpensePct} onChange={(e) => setPresumedExpensePct(e.target.value)} className="input-field input-field-trans" style={{ borderColor: '#e9d5ff' }} />
                 </div>
                 <div>
                   <LabelWithHelper color="#9333ea" title={t.labels.cap} helperText={t.helpers.cap} />
-                  <input type="number" value={utaCap} onChange={handle(setUtaCap)} className="input-field input-field-trans" style={{ borderColor: '#e9d5ff' }} />
+                  <input type="number" value={utaCap} onChange={(e) => setUtaCap(e.target.value)} className="input-field input-field-trans" style={{ borderColor: '#e9d5ff' }} />
                 </div>
               </div>
             </div>
