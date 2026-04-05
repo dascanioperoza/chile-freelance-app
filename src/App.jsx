@@ -180,8 +180,9 @@ export default function App() {
         .card-alt { background: #f1f5f9; border: 1px solid #e2e8f0; }
         .card-title { font-size: 13px; font-weight: 800; text-transform: uppercase; color: #94a3b8; margin: 0 0 16px 0; letter-spacing: 1px; }
         
+        /* THE MOBILE CSS FIX */
         .input-grid-2 { display: grid; grid-template-columns: 1fr 1fr; gap: 12px; }
-        .input-grid-3 { display: grid; grid-template-columns: 1fr 1fr 1fr; gap: 12px; }
+        .input-grid-3 { display: grid; grid-template-columns: 1fr; gap: 12px; } /* Stack 3-col on phones */
         .input-grid-5 { display: grid; grid-template-columns: 1fr 1fr; gap: 12px; }
         .sii-span { grid-column: 1 / -1; }
 
@@ -212,11 +213,13 @@ export default function App() {
           visibility: visible; opacity: 1; transform: translateY(0); 
         }
         
+        /* DESKTOP BREAKPOINT */
         @media (min-width: 768px) {
           .container { padding: 40px 20px; }
           .header-title { font-size: 32px; }
           .main-grid { grid-template-columns: 1fr 1fr; gap: 30px; }
           .card { padding: 24px; }
+          .input-grid-3 { grid-template-columns: 1fr 1fr 1fr; gap: 15px; } /* Return to 3 cols on PC */
           .input-grid-5 { grid-template-columns: repeat(3, 1fr); gap: 15px; }
           .sii-span { grid-column: span 3; }
         }
